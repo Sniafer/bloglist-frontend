@@ -1,44 +1,26 @@
-import login from "../services/login";
-import blogsService from "../services/blogs";
-import { setNotification } from "./notificationReducer";
+import usersServices from "../services/users";
 
-export const loginUser = (username, password) => {
+const actions = {
+  init: "INIT_USERS",
+};
+
+export const initializeUsers = () => {
   return async (dispatch) => {
-    try {
-      const user = await login({
-        username,
-        password,
-      });
-      window.localStorage.setItem("loggedUser", JSON.stringify(user));
-      blogsService.setToken(user.token);
-      dispatch({
-        type: "LOGIN",
-        data: user,
-      });
-    } catch (exception) {
-      dispatch(setNotification(`Wrong credentials`, 5, true));
-    }
+    const users = await usersServices.getAll();
+    dispatch({
+      type: actions.init,
+      data: users,
+    });
   };
 };
 
-export const logoutUser = () => {
-  window.localStorage.removeItem("loggedUser");
-  return {
-    type: "LOGOUT",
-    data: null,
-  };
-};
-
-export const checkLogin = () => {
-  const loggedUserJSON = window.localStorage.getItem("loggedUser");
-  if (loggedUserJSON) {
-    const user = JSON.parse(loggedUserJSON);
-    blogsService.setToken(user.token);
-    return {
-      type: "LOGIN",
-      data: user,
-    };
+const usersReducer = (state = [], action) => {
+  switch (action.type) {
+    case actions.init:
+      return action.data;
+    default:
+      return state;
   }
 };
 
-const usersReducer = (state, action) => {};
+export default usersReducer;

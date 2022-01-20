@@ -1,6 +1,7 @@
 import axios from "axios";
 const baseUrl = "http://localhost:3003/api/blogs";
 
+//Blogs
 const getAll = () => {
   const request = axios.get(baseUrl);
   return request.then((response) => response.data);
@@ -37,4 +38,44 @@ const remove = async (id) => {
   return response;
 };
 
-export default { getAll, setToken, create, update, remove };
+//Comments
+const getComments = (blogId) => {
+  const request = axios.get(`${baseUrl}/${blogId}/comments/`);
+  return request.then((response) => response.data);
+};
+
+const createComment = async (newObject, blogId) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.post(
+    `${baseUrl}/${blogId}/comments`,
+    newObject,
+    config
+  );
+  return response.data;
+};
+
+const removeComment = async (blogId, commentId) => {
+  const config = {
+    headers: { Authorization: token },
+  };
+  const response = await axios.delete(
+    `${baseUrl}/${blogId}/comments/${commentId}`,
+    config
+  );
+  return response;
+};
+
+const blogsServices = {
+  getAll,
+  setToken,
+  create,
+  update,
+  remove,
+  getComments,
+  createComment,
+  removeComment,
+};
+
+export default blogsServices;
