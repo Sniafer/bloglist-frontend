@@ -1,16 +1,8 @@
 import { Link } from "react-router-dom";
 
 const Blog = ({ blog }) => {
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: "solid",
-    borderWidth: 1,
-    marginBottom: 5,
-  };
-
   return (
-    <div style={blogStyle}>
+    <div className="my-4 py-2 px-4 text-lg font-bold text-blue-900 bg-blue-50">
       <p>
         <Link to={blog.id}>
           {blog.title} {blog.author}

@@ -10,8 +10,8 @@ const Blogs = () => {
     return b.likes - a.likes;
   });
   return (
-    <div>
-      <h2>Blogs</h2>
+    <div className="mt-16">
+      <h2 className="text-3xl font-bold text-blue-900 mb-8">Blogs</h2>
       <Togglable buttonLabel={"Create new blog"} cancelLabel={"Cancel"}>
         <CreateForm />
       </Togglable>

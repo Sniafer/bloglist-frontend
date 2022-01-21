@@ -10,13 +10,21 @@ const Togglable = ({ buttonLabel, cancelLabel, children }) => {
     setVisible(!visible);
   };
   return (
-    <div>
-      <div style={hideWhenVisible}>
+    <div className="mb-8">
+      <div
+        style={hideWhenVisible}
+        className="bg-blue-500 hover:bg-blue-700 text-white px-4 max-w-fit py-2 rounded text-xl"
+      >
         <button onClick={toggleVisibility}>{buttonLabel}</button>
       </div>
       <div style={showWhenVisible}>
         {children}
-        <button onClick={toggleVisibility}>{cancelLabel}</button>
+        <button
+          className="bg-red-500 hover:bg-red-700 text-white px-4 max-w-fit py-2 rounded mt-4 text-xl"
+          onClick={toggleVisibility}
+        >
+          {cancelLabel}
+        </button>
       </div>
     </div>
   );

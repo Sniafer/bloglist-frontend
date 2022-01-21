@@ -1,9 +1,20 @@
 import blogsService from "../services/blogs";
+import { setNotification } from "./notificationReducer";
 
 export const addBlog = (blog) => {
   return async (dispatch) => {
-    const newBlog = await blogsService.create(blog);
-    dispatch({ type: "ADD_BLOG", data: newBlog });
+    try {
+      const newBlog = await blogsService.create(blog);
+      dispatch(
+        setNotification(
+          `a new blog ${newBlog.title} by ${newBlog.author} added`,
+          5
+        )
+      );
+      dispatch({ type: "ADD_BLOG", data: newBlog });
+    } catch (exception) {
+      dispatch(setNotification(`Please fill author and url fields`, 5, true));
+    }
   };
 };
 

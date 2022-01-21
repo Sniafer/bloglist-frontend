@@ -45,7 +45,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <div className="container mx-auto p-2">
       <Notification />
       {user === null ? (
         <Login
@@ -57,11 +57,20 @@ const App = () => {
         />
       ) : (
         <div>
-          <p>
-            {user.name} logged-in
-            <button onClick={handleLogOut}>Log out</button>
-          </p>
-          <Nav />
+          <div className="flex flex-col-reverse sm:flex-row justify-between py-2">
+            <Nav />
+            <div className="flex items-end justify-center mb-4 sm:mb-0">
+              <p className="text-blue-900 font-bold">
+                {user.name} logged-in
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 font-bold text-white ml-4 px-4 py-2 rounded"
+                  onClick={handleLogOut}
+                >
+                  Log out
+                </button>
+              </p>
+            </div>
+          </div>
           <Routes>
             <Route path="/" element={<Blogs />} />
             <Route path="/:id" element={<BlogPage />} />

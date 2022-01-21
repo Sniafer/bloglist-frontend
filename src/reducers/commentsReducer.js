@@ -1,9 +1,8 @@
 import blogsServices from "../services/blogs";
-import blogsService from "../services/blogs";
 
 export const showComments = (blogId) => {
   return async (dispatch) => {
-    const comments = await blogsService.getComments(blogId);
+    const comments = await blogsServices.getComments(blogId);
     dispatch({
       type: "INIT_COMMENTS",
       data: comments,
@@ -20,7 +19,7 @@ export const removeComments = () => {
 
 export const addComment = (text, blogId) => {
   return async (dispatch) => {
-    const comment = await blogsServices.addComment({ text }, blogId);
+    const comment = await blogsServices.createComment({ text }, blogId);
     dispatch({
       type: "ADD_COMMENT",
       data: comment,
@@ -30,10 +29,10 @@ export const addComment = (text, blogId) => {
 
 export const deleteComment = (blogId, comment) => {
   return async (dispatch) => {
-    await blogsServices.deleteComment(blogId, comment.id);
+    await blogsServices.removeComment(blogId, comment.id);
     dispatch({
       type: "DELETE_COMMENT",
-      data: comment,
+      data: comment.id,
     });
   };
 };
@@ -46,8 +45,8 @@ const commentsReducer = (state = [], action) => {
       return action.data;
     case "ADD_COMMENT":
       return [...state, action.data];
-    case "REMOVE_BLOG":
-      return state.filter((comment) => comment.id !== action.data.id);
+    case "DELETE_COMMENT":
+      return state.filter((c) => c.id !== action.data);
     default:
       return state;
   }
